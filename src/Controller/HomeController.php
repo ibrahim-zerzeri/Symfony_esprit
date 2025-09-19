@@ -39,4 +39,9 @@ public function afficher():Response
     return $this->render(view : 'home/apropos.html.twig');
 }
 
+#[Route(path : '/index',name:'index')]
+public function index1():Response
+{
+    return new Response(content: "Bonjour mes étudiants");
+}
 }
