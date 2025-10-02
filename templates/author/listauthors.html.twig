@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of Authors{% endblock %}
+
+{% block body %}
+    <h1>List of Authors</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Number of Books</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for author in authors %}
+            <tr>
+                <td>
+                    {% if author.picture %}
+                        <img src="{{ asset(author.picture) }}" alt="{{ author.username }}" width="50" height="50">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>{{ author.id }}</td>
+                <td>{{ author.username }}</td>
+                <td>{{ author.email }}</td>
+                <td>{{ author.nb_books }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No authors found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

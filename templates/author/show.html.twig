@@ -1,0 +1,16 @@
+{{nom}}
+
+{% set a ="Hello" %}
+
+{{a}}
+
+{% for i in 0..9 %}
+{{i}}
+{% endfor %}
+
+{% if 'Fabien' starts with 'F' %}
+Commence par F
+{% endif %}
+
+<a href="{{path('app_author')}}">Link1</a>
+<a href="{{url('app_author')}}">Link2</a>
