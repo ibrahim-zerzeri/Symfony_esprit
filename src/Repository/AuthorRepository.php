@@ -16,6 +16,15 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
+    public function save(Author $entity, bool $flush = false): void
+{
+    $this->getEntityManager()->persist($entity);
+
+    if ($flush) {
+        $this->getEntityManager()->flush();
+    }
+}
+
 //    /**
 //     * @return Author[] Returns an array of Author objects
 //     */

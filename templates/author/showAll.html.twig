@@ -25,7 +25,11 @@
                             <td>{{ author.id }}</td>
                             <td>{{ author.username }}</td>
                             <td>{{ author.email }}</td>
-                            <td>Update/Delete/Details</td>
+                           <td>
+ <a href="{{path('deleteAuthor',{'id':author.id})}}">Delete</a> {#or URL #}
+ <a href="{{path('showDetails',{'id':author.id})}}">Show</a>
+    <a href="{{ path('updateAuthor', {'id': author.id}) }}">Update</a>
+</td>
                         </tr>
                         {% endfor %}
                     </tbody>
