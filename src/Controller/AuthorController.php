@@ -47,10 +47,9 @@ final class AuthorController extends AbstractController
     #[Route('/showAll', name: 'showAll')]
     public function showAll(AuthorRepository $repo):  Response
     {
-        $authors = $repo->findAll();
+      ShowAllAuthorsQB();
 
-        return $this->render('author/showAll.html.twig',['list' => $authors]
-        ); 
+      
     }
 
     #[Route('/add', name:'add')]
@@ -127,6 +126,13 @@ public function updateAuthor($id, AuthorRepository $repo, Request $request): Res
     return $this->render('author/update.html.twig', [
         'author' => $author
     ]);
+}
+#[Route(path : '/ShowAllAuthorQB',name :'ShowAllAuthorsQB')]
+public function ShowAllAuthorsQB(AuthorRepository $repo): Response{
+$authors=$repo->ShowAllAuthorsQB();
+return $this->render('author/showAll.html.twig',['list' => $authors]
+);
+
 }
 
 }
