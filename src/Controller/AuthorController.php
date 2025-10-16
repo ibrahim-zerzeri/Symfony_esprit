@@ -61,7 +61,7 @@ final class AuthorController extends AbstractController
       $em->persist($author);
       $em->flush();
       //return new Response("Author added suceesfully");
-      return $this->redirectToRoute('showAll');
+      return $this->redirectToRoute('showAllAuthors');
     }
 
     #[Route('/addForm',name:'addForm')]
@@ -75,7 +75,7 @@ final class AuthorController extends AbstractController
      $em=$doctrine->getManager();
      $em->persist($author);
      $em->flush();
-     return $this->redirectToRoute('showAll');
+     return $this->redirectToRoute('showAllAuthors');
     }
     return $this->render('author/add.html.twig',['formulaire'=>$form->createView()]);
     // return $this->renderForm()
@@ -90,7 +90,7 @@ final class AuthorController extends AbstractController
       $em=$doctrine->getManager();
       $em->remove($author);
       $em->flush();// l'ajout , la suppression et la modification
-      return $this->redirectToRoute('showAll');
+      return $this->redirectToRoute('showAllAuthors');
     }
 
     #[Route('/showDetails/{id}',name:'showDetails')]
@@ -120,7 +120,7 @@ public function updateAuthor($id, AuthorRepository $repo, Request $request): Res
         $repo->save($author, true);
 
         $this->addFlash('success', 'Author updated successfully!');
-        return $this->redirectToRoute('showAll');
+        return $this->redirectToRoute('showAllAuthors');
     }
 
     return $this->render('author/update.html.twig', [
@@ -134,5 +134,38 @@ return $this->render('author/showAll.html.twig',['list' => $authors]
 );
 
 }
+#[Route('/authors', name: 'showAllAuthors')]
+public function showAllAuthors(Request $request, AuthorRepository $authorRepository): Response
+{
+    $min = $request->query->get('min');
+    $max = $request->query->get('max');
+    
+    $min = $min !== null && $min !== '' ? (int) $min : null;
+    $max = $max !== null && $max !== '' ? (int) $max : null;
+    
+
+    if ($min || $max) {
+        $authors = $authorRepository->findByBookCountRange($min ?: null, $max ?: null);
+    } else {
+        $authors = $authorRepository->findAll();
+    }
+
+    return $this->render('author/showAll.html.twig', [
+        'list' => $authors,
+        'min' => $min,
+        'max' => $max,
+    ]);
+}
+
+#[Route('/authors/delete-zero', name: 'delete_zero_authors')]
+public function deleteAuthorsWithNoBooks(AuthorRepository $authorRepository): Response
+{
+    $deleted = $authorRepository->deleteAuthorsWithNoBooks();
+
+    $this->addFlash('success', "$deleted author(s) with 0 books deleted.");
+
+    return $this->redirectToRoute('showAllAuthors');
+}
+
 
 }

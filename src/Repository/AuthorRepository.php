@@ -57,5 +57,34 @@ public function ShowAllAuthorsQB(): mixed {
                 ->getQuery()
                 ->getResult();
 }
+
+public function findByBookCountRange(?int $min = null, ?int $max = null): array
+{
+    $qb = $this->createQueryBuilder('a');
+
+    if ($min !== null) {
+        $qb->andWhere('a.nb_books >= :min')
+           ->setParameter('min', $min);
+    }
+
+    if ($max !== null) {
+        $qb->andWhere('a.nb_books <= :max')
+           ->setParameter('max', $max);
+    }
+
+    return $qb->orderBy('a.nb_books', 'DESC')
+              ->getQuery()
+              ->getResult();
+}
+
+public function deleteAuthorsWithNoBooks(): int
+{
+    return $this->createQueryBuilder('a')
+        ->delete()
+        ->where('a.nb_books = 0')
+        ->getQuery()
+        ->execute();
+}
+
     
 }
