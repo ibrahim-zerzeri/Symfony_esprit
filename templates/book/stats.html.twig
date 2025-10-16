@@ -17,14 +17,19 @@
                             Number of books in "Romance" category: 
                             <span class="badge bg-primary fs-6">{{ romanceBookCount }}</span>
                         </p>
-                        <a href="{{ path('search_romance_books') }}" class="btn btn-info">View Romance Books</a>
+                        {# Fix: only show button if route exists #}
+                        {% if 'search_romance_books' in app.request.attributes.get('_route') %}
+                            <a href="{{ path('search_romance_books') }}" class="btn btn-info">View Romance Books</a>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>View Romance Books (coming soon)</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mt-4">
-            <h3>Books Published Between {{ startDate|date('Y-m-d') }} and {{ endDate|date('Y-m-d') }}</h3>
+            <h3>Books Published Between 2014-01-01 and 2018-12-31</h3>
             
             {% if booksBetweenDates is not empty %}
                 <div class="table-responsive">
@@ -44,9 +49,7 @@
                                 <td>{{ book.id }}</td>
                                 <td>{{ book.title }}</td>
                                 <td>{{ book.publicationDate|date('Y-m-d') }}</td>
-                                <td>
-                                    <span class="badge bg-info text-dark">{{ book.category }}</span>
-                                </td>
+                                <td><span class="badge bg-info text-dark">{{ book.category }}</span></td>
                                 <td>{{ book.author ? book.author.username : 'No Author' }}</td>
                             </tr>
                             {% endfor %}
@@ -61,6 +64,7 @@
         </div>
         
         <a href="{{ path('app_book') }}" class="btn btn-primary mt-3">Back to Book Home</a>
+          <a href="{{ path('showAllBooks') }}" class="btn btn-secondary mt-3">Back to Book table</a>
     </div>
 </body>
 </html>

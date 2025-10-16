@@ -144,7 +144,7 @@ final class BookController extends AbstractController
             'book' => $book
         ]);
     }
-    #[Route('/book/stats', name: 'book_stats')]
+    #[Route('/bookStats', name: 'book_stats')]
 public function bookStats(BookRepository $bookRepo): Response
 {
     // 1. Nombre des livres de catégorie "Romance"
@@ -156,8 +156,7 @@ public function bookStats(BookRepository $bookRepo): Response
     return $this->render('book/stats.html.twig', [
         'romanceBookCount' => $romanceBookCount,
         'booksBetweenDates' => $booksBetweenDates,
-        'startDate' => $startDate,
-        'endDate' => $endDate,
+    
     ]);
 }
 }

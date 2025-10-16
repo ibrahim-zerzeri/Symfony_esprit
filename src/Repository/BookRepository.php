@@ -43,9 +43,11 @@ class BookRepository extends ServiceEntityRepository
     public function CountBooksRomance(): mixed {
         return $this->createQueryBuilder(alias :'a')
                     ->select('COUNT(a.id)')
-                    ->where('b.category = "Romance"')
+                    ->where('a.category = :category')
+                    ->setParameter('category', 'Romance')                    
                     ->getQuery()
-                    ->getResult();
+                    ->getSingleScalarResult();
+
     }
     public function findBooksBetweenDates(): array
     {
