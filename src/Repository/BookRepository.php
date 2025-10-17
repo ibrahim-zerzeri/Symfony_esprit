@@ -40,6 +40,15 @@ class BookRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.author', 'a')
+            ->leftJoin('b.readers', 'r') // If you want to eager load readers
+            ->addSelect('a', 'r')
+            ->getQuery()
+            ->getResult();
+    }
     public function CountBooksRomance(): mixed {
         return $this->createQueryBuilder(alias :'a')
                     ->select('COUNT(a.id)')

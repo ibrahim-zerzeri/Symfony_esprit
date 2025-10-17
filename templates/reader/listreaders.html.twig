@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Readers List{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Static Readers List</h1>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in readers %}
+            <tr>
+                <td>{{ reader.id }}</td>
+                <td>{{ reader.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('app_reader') }}" class="btn btn-primary">Back to Reader Home</a>
+</div>
+{% endblock %}

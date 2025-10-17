@@ -41,13 +41,16 @@ final class BookController extends AbstractController
 
         return $this->render('book/listbooks.html.twig', ['books' => $books]);
     }
-
     #[Route('/showAllBooks', name: 'showAllBooks')]
     public function showAll(BookRepository $repo): Response
     {
-        $books = $repo->findAll();
-
-        return $this->render('book/showAll.html.twig', ['list' => $books]);
+        try {
+            $books = $repo->findAll();
+            return $this->render('book/showAll.html.twig', ['list' => $books]);
+        } catch (\Error $e) {
+            // This will show you exactly where the error occurs
+            dd($e->getMessage(), $e->getFile(), $e->getLine());
+        }
     }
 
     #[Route('/addBook', name: 'addBook')]

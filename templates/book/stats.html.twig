@@ -16,13 +16,13 @@
                         <p class="card-text">
                             Number of books in "Romance" category: 
                             <span class="badge bg-primary fs-6">{{ romanceBookCount }}</span>
-                        </p>
+                        </p><!--
                         {# Fix: only show button if route exists #}
                         {% if 'search_romance_books' in app.request.attributes.get('_route') %}
                             <a href="{{ path('search_romance_books') }}" class="btn btn-info">View Romance Books</a>
                         {% else %}
                             <button class="btn btn-secondary" disabled>View Romance Books (coming soon)</button>
-                        {% endif %}
+                        {% endif %}-->
                     </div>
                 </div>
             </div>

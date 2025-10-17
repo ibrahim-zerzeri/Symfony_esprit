@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Show Reader{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Reader: {{ username }}</h1>
+    <a href="{{ path('app_reader') }}" class="btn btn-primary">Back to Reader Home</a>
+</div>
+{% endblock %}
