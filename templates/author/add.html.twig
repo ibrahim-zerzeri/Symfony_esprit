@@ -1,16 +1,46 @@
-{#{{form(formulaire)}}#}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Author</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center text-primary">Add New Author</h1>
+        
+        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+            <div class="card-body">
+                {{ form_start(formulaire) }}
 
-{{form_start(formulaire)}} {#<form>#}
+                <div class="mb-3">
+                    {{ form_label(formulaire.username, 'Username') }}
+                    {{ form_widget(formulaire.username, {'attr': {'class': 'form-control', 'placeholder': 'Enter author username'}}) }}
+                    {{ form_errors(formulaire.username) }}
+                </div>
 
-{{form_label(formulaire.email,'Votre nom')}} {#<label>#}
-{{form_widget(formulaire.email)}} {#<input type>#}
-{{form_errors(formulaire.email)}} 
+                <div class="mb-3">
+                    {{ form_label(formulaire.email, 'Email') }}
+                    {{ form_widget(formulaire.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter author email'}}) }}
+                    {{ form_errors(formulaire.email) }}
+                </div>
 
-{{form_label(formulaire.username)}} {#<label>#}
-{{form_widget(formulaire.username)}} {#<input type>#}
-{{form_errors(formulaire.username)}}
+                <div class="mb-3">
+                    {{ form_label(formulaire.nb_books, 'Number of Books') }}
+                    {{ form_widget(formulaire.nb_books, {'attr': {'class': 'form-control', 'placeholder': 'Enter number of books'}}) }}
+                    {{ form_errors(formulaire.nb_books) }}
+                </div>
 
+                <div class="text-center mt-4">
+                    {{ form_widget(formulaire.Add, {'attr': {'class': 'btn btn-success px-4'}}) }}
+                </div>
 
+                {{ form_end(formulaire) }}
+            </div>
+        </div>
 
-
-{{form_end(formulaire)}} {#</form>#}
+        <div class="text-center mt-3">
+            <a href="{{ path('showAllAuthors') }}" class="btn btn-primary">Back to Authors List</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,9 +5,19 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\MessageGenerator;
+
 
 final class HomeController extends AbstractController
 {
+
+    #[Route('/bababoey', name: 'home')]
+public function bababoey(MessageGenerator $messageGenerator): Response
+{
+$message = $messageGenerator->getHappyMessage();
+return new Response("<h1>Citation du jour :</h1><p>$message</p>");
+} 
+
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {

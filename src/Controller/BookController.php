@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\AuthorMailerService;
 
 final class BookController extends AbstractController
 {
@@ -65,6 +66,7 @@ final class BookController extends AbstractController
         $em = $doctrine->getManager();
         $em->persist($book);
         $em->flush();
+        $authorMailer->notifyAuthor($book->getAuthor());
         
         return $this->redirectToRoute('showAllBooks');
     }

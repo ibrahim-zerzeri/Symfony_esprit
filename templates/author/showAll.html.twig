@@ -25,6 +25,7 @@
 
     {# 🗑️ Delete authors with 0 books #}
     <div class="mb-3 text-end">
+      <a href="{{ path('addForm') }}" class="btn btn-success text-begin">Add New Author</a>
         <a href="{{ path('delete_zero_authors') }}" class="btn btn-danger"
            onclick="return confirm('Are you sure you want to delete all authors with 0 books?')">
             Delete authors with 0 books
@@ -39,6 +40,7 @@
 
     {% if list is not empty %}
         <div class="table-responsive">
+        <h2 class="text-success mb-4">😊 {{ quote }}</h2>
             <table class="table table-striped table-bordered align-middle text-center">
                 <thead class="table-dark">
                     <tr>

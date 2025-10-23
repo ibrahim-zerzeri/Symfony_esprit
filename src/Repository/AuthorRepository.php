@@ -57,33 +57,29 @@ public function ShowAllAuthorsQB(): mixed {
                 ->getQuery()
                 ->getResult();
 }
+public function ShowAllAuthorsDQL(): mixed{
+    $query = $this->getEntityManager()
+    ->createQuery('SELECT a FROM App\Entity\Author a')
+    ->getResult();
+    return $query;
+}
 
 public function findByBookCountRange(?int $min = null, ?int $max = null): array
 {
-    $qb = $this->createQueryBuilder('a');
-
-    if ($min !== null) {
-        $qb->andWhere('a.nb_books >= :min')
-           ->setParameter('min', $min);
-    }
-
-    if ($max !== null) {
-        $qb->andWhere('a.nb_books <= :max')
-           ->setParameter('max', $max);
-    }
-
-    return $qb->orderBy('a.nb_books', 'DESC')
-              ->getQuery()
-              ->getResult();
+    $query = $this->getEntityManager()
+             ->createQuery("SELECT a FROM App\Entity\Author a 
+            WHERE a.nb_books >= $min 
+              AND a.nb_books <= $max 
+            ORDER BY a.nb_books DESC")
+             ->getResult();
+             return $query;
 }
 
 public function deleteAuthorsWithNoBooks(): int
 {
-    return $this->createQueryBuilder('a')
-        ->delete()
-        ->where('a.nb_books = 0')
-        ->getQuery()
-        ->execute();
+    $query = $this->getEntityManager()
+    ->createQuery('DELETE FROM App\Entity\Author a WHERE a.nb_books = 0')->getResult();
+    return $query;
 }
 
     

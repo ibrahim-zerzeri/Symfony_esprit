@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\HappyQuote;
+use App\Service\BookManagerService;
 
 final class AuthorController extends AbstractController
 {
@@ -132,11 +134,37 @@ public function ShowAllAuthorsQB(AuthorRepository $repo): Response{
 $authors=$repo->ShowAllAuthorsQB();
 return $this->render('author/showAll.html.twig',['list' => $authors]
 );
+}
+
+#[Route(path : '/ShowAllAuthorDQL',name :'ShowAllAuthorsDQL')]
+public function ShowAllAuthorsDQL(AuthorRepository $repo,Request $request): Response{
+$authors=$repo->ShowAllAuthorsDQL();
+
+$min = $request->query->get('min');
+$max = $request->query->get('max');
+
+$min = $min !== null && $min !== '' ? (int) $min : null;
+$max = $max !== null && $max !== '' ? (int) $max : null;
+
+
+if ($min || $max) {
+    $authors = $repo->findByBookCountRange($min ?: null, $max ?: null);
+} else {
+    $authors = $repo->findAll();
+}
+
+return $this->render('author/showAll.html.twig', [
+    'list' => $authors,
+    'min' => $min,
+    'max' => $max,
+]);
+
 
 }
 #[Route('/authors', name: 'showAllAuthors')]
-public function showAllAuthors(Request $request, AuthorRepository $authorRepository): Response
+public function showAllAuthors(Request $request, AuthorRepository $authorRepository,HappyQuote $happyQuote): Response
 {
+    $quote = $happyQuote->getHappyMessage();
     $min = $request->query->get('min');
     $max = $request->query->get('max');
     
@@ -154,6 +182,7 @@ public function showAllAuthors(Request $request, AuthorRepository $authorReposit
         'list' => $authors,
         'min' => $min,
         'max' => $max,
+        'quote' =>$quote
     ]);
 }
 
@@ -166,6 +195,15 @@ public function deleteAuthorsWithNoBooks(AuthorRepository $authorRepository): Re
 
     return $this->redirectToRoute('showAllAuthors');
 }
+#[Route('/authors/best', name: 'best_authors')]
+public function bestAuthors(AuthorRepository $repo, BookManagerService $bookManager): Response
+{
+    $authors = $repo->findAll();
+    $bestAuthors = $bookManager->bestAuthors($authors);
 
+    return $this->render('author/best.html.twig', [
+        'authors' => $bestAuthors
+    ]);
+}
 
 }

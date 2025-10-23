@@ -49,26 +49,20 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function CountBooksRomance(): mixed {
-        return $this->createQueryBuilder(alias :'a')
-                    ->select('COUNT(a.id)')
-                    ->where('a.category = :category')
-                    ->setParameter('category', 'Romance')                    
-                    ->getQuery()
-                    ->getSingleScalarResult();
-
+    public function CountBooksRomance(): mixed
+    {
+        $query=$this->getEntityManager()
+        ->createQuery("SELECT COUNT(b.id) FROM App\Entity\Book b WHERE b.category = 'Romance'")->getSingleScalarResult();
+        return $query;
     }
+    
     public function findBooksBetweenDates(): array
     {
-        $startDate = new \DateTime('2014-01-01');
-        $endDate = new \DateTime('2018-12-31');
+       $query=$this->getEntityManager()
     
-        return $this->createQueryBuilder('b')
-            ->where('b.publicationDate BETWEEN :startDate AND :endDate')
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
-            ->orderBy('b.publicationDate', 'ASC')
-            ->getQuery()
-            ->getResult();
+        ->createQuery("SELECT b FROM App\Entity\Book b 
+                WHERE b.publicationDate BETWEEN '2014-01-01' AND '2018-12-31' 
+                ORDER BY b.publicationDate ASC")->getResult();
+                return $query;
     }
 }
